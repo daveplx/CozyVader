@@ -1,15 +1,20 @@
-import game
-import player
-import npc
-import encounter
+import Game
+import Player
+import Npc
+import Encounter
+import DiceRoll
 
-Game = game.Game
-Player = player.Player
-NPC = npc.NPC
-Encounter = encounter.Encounter
+Game = Game.Game
+Player = Player.Player
+NPC = Npc.Npc
+Encounter = Encounter.Encounter
 
 
 class Frame:
+
+    @classmethod
+    def createGame(cls, name='', entityList=[], encounterList=[]):
+        return Game(name, entityList, encounterList)
 
     def __init__(self, game=None):
         self.game = game

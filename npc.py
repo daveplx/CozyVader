@@ -1,5 +1,5 @@
-import entity
-Entity = entity.Entity
+import Entity
+Entity = Entity.Entity
 
-class NPC(Entity):
+class Npc(Entity):
     pass

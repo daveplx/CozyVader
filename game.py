@@ -2,7 +2,7 @@ class Game:
 
     gameUID = 0
 
-    def __init__(self, name, entityList=[], encounterList=[]):
+    def __init__(self, name='', entityList=[], encounterList=[]):
         self.name = name
         self.entityList = entityList
         self.encounterList = encounterList
@@ -14,7 +14,7 @@ class Game:
     def getGameCount(cls):
         return Game.gameUID
 
-    def getcurrentGame(self):
+    def getCurrentGameUID(self):
         return self.gameUID
 
     def getName(self):
