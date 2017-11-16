@@ -1,6 +1,6 @@
 # RollApp
-An App for rolling dice in a managed and interconnected fashion. Cross-platform.
-Done in Python 3.6.
+A cross-platform project for an appllication that rolls dice. The best dice. Like, totally rolls them.
+Tuned down a notch since simple and done > ambitious and dead.
 
 Dependencies:
   - kivy (http://kivy.org) (Installation: https://kivy.org/docs/installation/installation-windows.html#install-win-dist)
