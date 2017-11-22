@@ -1,67 +1,71 @@
 import dice
 
-diceSides = 6
-
-diceCount = 3
-
-stats = {'dex' : 3, 'str' : 0 }
-
-modifier = stats['dex']
-
-modifierIsOn = True
-
-proficiency = 2
-
-proficiencyIsOn = False
-
-
-def rollDice(diceCount, diceSides, TotalModifier):
-    callParameter = str(diceCount) + 'd' + str(diceSides)
-    print(dice.roll(callParameter))
+numOfDice = 0
+numOfSides = 0
+statModifiers = {
+    'str': 0,
+    'con': 0,
+    'dex': 0,
+    'int': 0,
+    'wis': 0,
+    'cha': 0
+}
+currentStatModifier = 0
+currentStatModifierIsOn = False
+proficiencyBonus = 0
+proficiencyBonusIsOn = False
 
 
-def setDiceSides(numberOfSides):
-    global diceSides
-    diceSides = numberOfSides
+def rollDice(numOfDice, numOfSides):
+    diceRoll = dice.roll(str(numOfDice) + 'd' + str(numOfSides))
+    return diceRoll
 
-def setDiceCount(numberOfDice):
-    global diceCount
-    diceCount= numberOfDice
 
-def setModifier(stat):
-    global stats
-    global modifier
-    modifier = stats[stat]
+def setNumOfDice(newNumberOfDice):
+    global numOfDice
+    try:
+        numOfDice = int(newNumberOfDice)
+    except ValueError:
+        raise ValueError('Wrong parameter value (must be integer)')
 
-def setStat(stat, modifier):
-    global stats
-    stats[stat] = modifier
 
-def setProficiency(proficiencyValue):
-    global proficiency
-    proficiency = proficiencyValue
+def setNumOfSides(newNumberOfSides):
+    global numOfSides
+    try:
+        numOfSides = int(newNumberOfSides)
+    except ValueError:
+        raise ValueError('Wrong parameter value (must be integer)')
 
-def toggleProficiency():
-    global proficiencyIsOn
-    proficiencyIsOn = not proficiencyIsOn
 
-def toggleModifier():
-    global modifierIsOn
-    modifierIsOn = not modifierIsOn
+def statIsInvalid(stat):
+    global statModifiers
+    if stat not in statModifiers:
+        raise ValueError("%s is not a valid stat ('str', 'con', ...)", stat)
 
-###
 
-rollDice(diceCount, diceSides, modifier)
+def setStatModifier(stat, modifier):
+    global statModifiers
+    if not statIsInvalid(stat):
+        try:
+            if int(modifier) not in range(-4, 8):
+                raise OverflowError("%d is out of range (-4 .. 7)", modifier)
+            statModifiers[stat] = int(modifier)
+        except ValueError:
+            raise ValueError('Wrong parameter value (must be integer)')
 
-setDiceCount(4)
-setDiceSides(8)
 
-rollDice(diceCount, diceSides, modifier)
+def setCurrentStatModifierByStat(stat):
+    global currentStatModifier
+    global statModifiers
+    if not statIsInvalid(stat):
+        currentStatModifier = statModifiers[stat]
 
-print(modifier)
-setModifier('str')
-print(modifier)
 
-setStat('str', 2)
-setModifier('str')
-print(modifier)
+def toggleCurrentStatModifierIsOn():
+    global currentStatModifierIsOn
+    currentStatModifierIsOn = not currentStatModifierIsOn
+
+
+def toggleProficiencyBonusIsOn():
+    global proficiencyBonusIsOn
+    proficiencyBonusIsOn = not proficiencyBonusIsOn
