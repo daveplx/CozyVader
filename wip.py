@@ -22,7 +22,7 @@ class wipApp(App):
         self.rootLayout = FloatLayout(size=Window.size)
 
         self.buttonGrid = GridLayout(cols=5, rows=2, size_hint=(.95, .2), pos_hint={'x': .025, 'y': .7}, padding=10, spacing=5)
-        self.buttonGrid.add_widget(Button(text='d4'))
+        self.buttonGrid.add_widget(Button(background_normal="img\\d4.png", size_hint=(.1, .2)))
         self.buttonGrid.add_widget(Button(text='d6'))
         self.buttonGrid.add_widget(Button(text='d8'))
         self.buttonGrid.add_widget(Button(text='d10'))
@@ -51,7 +51,7 @@ class wipApp(App):
         self.rootLayout.add_widget(self.resultGrid)
 
         with self.rootLayout.canvas.before:
-            self.rect = Rectangle(pos=self.rootLayout.pos, size=self.rootLayout.size, source=("C:\\Users\\dri.TACTON\\Downloads\\papyrus.jpg"))
+            self.rect = Rectangle(size=self.rootLayout.size, source=("C:\\Users\\dri.TACTON\\Downloads\\papyrus.jpg"))
 
         return self.rootLayout
 
