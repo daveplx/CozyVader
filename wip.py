@@ -128,7 +128,7 @@ class wipApp(App):
 
         #background
         with self.rootLayout.canvas.before:
-            self.rect = Rectangle(size=self.rootLayout.size, source=("C:\\Users\\dri.TACTON\\Downloads\\papyrus.jpg"))
+            self.rect = Rectangle(size=self.rootLayout.size, source=("papyrus.jpg"))
 
 
         #return everything
