@@ -1,3 +1,5 @@
+import dicier
+
 import kivy
 
 kivy.require('1.10.0')
@@ -48,31 +50,31 @@ class wipApp(App):
         #self.buttonGrid.add_widget(Button(background_normal="img\\d4.png", size_hint=(.1, .2)))
         #d4
         self.button_d4 = Button(text='d4')
-        self.button_d4.bind(on_press=self.callback)
+        self.button_d4.bind(on_press=self.scheduleRoll)
         self.buttonGrid.add_widget(self.button_d4)
         #d6
         self.button_d6 = Button(text='d6')
-        self.button_d6.bind(on_press=self.callback)
+        self.button_d6.bind(on_press=self.scheduleRoll)
         self.buttonGrid.add_widget(self.button_d6)
         #d8
         self.button_d8 = Button(text='d8')
-        self.button_d8.bind(on_press=self.callback)
+        self.button_d8.bind(on_press=self.scheduleRoll)
         self.buttonGrid.add_widget(self.button_d8)
         #d10
         self.button_d10 = Button(text='d10')
-        self.button_d10.bind(on_press=self.callback)
+        self.button_d10.bind(on_press=self.scheduleRoll)
         self.buttonGrid.add_widget(self.button_d10)
         #d12
         self.button_d12 = Button(text='d12')
-        self.button_d12.bind(on_press=self.callback)
+        self.button_d12.bind(on_press=self.scheduleRoll)
         self.buttonGrid.add_widget(self.button_d12)
         #d20
         self.button_d20 = Button(text='d20')
-        self.button_d20.bind(on_press=self.callback)
+        self.button_d20.bind(on_press=self.scheduleRoll)
         self.buttonGrid.add_widget(self.button_d20)
         #d100
         self.button_d100 = Button(text='d100')
-        self.button_d100.bind(on_press=self.callback)
+        self.button_d100.bind(on_press=self.scheduleRoll)
         self.buttonGrid.add_widget(self.button_d100)
         #dN
         self.button_dN = Button(text='dN')
@@ -95,7 +97,7 @@ class wipApp(App):
         self.rollFrame.add_widget(self.diceTray)
         #saved
         self.button_saved = Button(size_hint=(.1, 1), text='>')
-        self.button_saved.bind(on_press=self.callback)
+        self.button_saved.bind(on_press=self.test)
         self.rollFrame.add_widget(self.button_saved)
 
 
@@ -112,7 +114,7 @@ class wipApp(App):
 
         #roll
         self.button_roll = Button(text='roll')
-        self.button_roll.bind(on_press=self.callback)
+        self.button_roll.bind(on_press=self.roll)
         self.buttonBox.add_widget(self.button_roll)
 
 
@@ -134,8 +136,60 @@ class wipApp(App):
         #return everything
         return self.rootLayout
 
+    scheduledRolls = []
+
     def callback(self, instance):
         print('The button <%s> is being pressed' % instance.text)
+
+    def scheduleRoll(self, instance):
+        self.scheduledRolls.append(instance.text)
+
+    def clearRolls(self):
+        self.scheduledRolls.clear()
+
+    def sumList(self, list):
+        sum = 0
+        for num in list:
+            sum += num
+        return sum
+
+    def condenseDiceList(self, list):
+        condensedList = []
+        for dice in list:
+            contains = False
+            splitDice = str(dice).split('d')
+            for conDice in condensedList:
+                splitConDice = str(conDice).split('d')
+                if splitDice[1] == splitConDice[1]:
+                    contains = True
+                    conDice = str(int(splitConDice[0])+1) + 'd' + str(splitConDice[1])
+            if not contains:
+                condensedList.append(dice)
+        return condensedList
+
+    def roll(self, instance):
+        scheduledDict = self.listToDict(self.scheduledRolls)
+        for key in scheduledDict:
+            rollString = str(scheduledDict[key])+key
+            roll = dicier.roll(rollString)
+            total = self.sumList(roll)
+            print("%s -> %s (%s)" % (rollString, total, roll))
+        self.clearRolls()
+
+
+    def test(self, instance):
+        pass
+
+    def listToDict(self, list):
+        dict = {}
+        for die in list:
+            if die in dict:
+                dict[die] += 1
+            else:
+                dict[die] = 1
+        return dict
+
+
 
 if __name__ == '__main__':
     wipApp().run()
